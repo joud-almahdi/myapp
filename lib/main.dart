@@ -9,9 +9,17 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+//db = FirebaseFirestore.instance;
+final items = List<String>.generate(20, (i) => "Item ${i + 1}");
+
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -42,8 +50,36 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: ListView(
-        children: [ListLayout(), ListLayout(), ListLayout()],
+      body: ListView.builder(
+        itemCount: items.length,
+        itemBuilder: (context, index) {
+          final item = items[index];
+          return Dismissible(
+            key: Key(item),
+            onDismissed: (direction) {
+              setState(() {
+                items.removeAt(index);
+              });
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text("Deleted")));
+            },
+            background: Container(
+              color: Colors.red,
+              margin: EdgeInsets.all(9),
+            ),
+            child: Card(
+                color: Colors.lightBlueAccent,
+                margin: EdgeInsets.all(9),
+                child: ListTile(title: Text('$item'))),
+          );
+        },
+      ),
+      floatingActionButton: new FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const SecondRoute()));
+        },
+        child: Icon(Icons.add),
       ),
     );
   }
