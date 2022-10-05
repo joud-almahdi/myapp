@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:myapp/main.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'main.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -126,14 +128,13 @@ Widget loginButton() {
     padding: EdgeInsets.symmetric(vertical: 25),
     width: double.infinity,
     child: ElevatedButton(
-      child: const Text(
-        "Login",
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-      ),
-      onPressed: () {
-        print("test message");
-      },
-    ),
+        child: const Text(
+          "Login",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        onPressed: () {
+          //TODO
+        }),
   );
 }
 
