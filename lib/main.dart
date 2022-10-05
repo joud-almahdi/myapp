@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:myapp/SignUp.dart';
 import 'package:myapp/listLayout.dart';
 import 'firebase_options.dart';
 import 'Login.dart';
@@ -28,7 +29,7 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.cyan,
         scaffoldBackgroundColor: Colors.blueGrey,
       ),
-      home: const MyHomePage(title: 'To-do list- Home Page'),
+      home: new LoginScreen(),
     );
   }
 }
@@ -47,9 +48,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: ListView.builder(
         itemCount: items.length,
         itemBuilder: (context, index) {
