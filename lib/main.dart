@@ -5,8 +5,12 @@ import 'package:myapp/listLayout.dart';
 import 'firebase_options.dart';
 import 'Login.dart';
 import 'listLayout.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-void main() {
+FirebaseAuth auth = FirebaseAuth.instance;
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

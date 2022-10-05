@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:myapp/Login.dart';
 import 'package:myapp/main.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 import 'main.dart';
 
-TextEditingController emailController = new TextEditingController();
-TextEditingController passwordController = new TextEditingController();
-
-class LoginScreen extends StatefulWidget {
+class SignUpScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SignupScreenState createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    "Login",
+                    "Sign up",
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -133,21 +129,14 @@ Widget loginButton() {
     padding: EdgeInsets.symmetric(vertical: 25),
     width: double.infinity,
     child: ElevatedButton(
-        child: const Text(
-          "Login",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        onPressed: () {
-          FirebaseAuth.instance
-              .signInWithEmailAndPassword(
-                  email: emailController.text,
-                  password: passwordController.text)
-              .then((value) {
-            print("Success");
-          }).onError((error, stackTrace) {
-            print(error.toString());
-          });
-        }),
+      child: const Text(
+        "Sign up",
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      ),
+      onPressed: () {
+        print("test message");
+      },
+    ),
   );
 }
 
@@ -157,11 +146,17 @@ Widget signupButton() {
     width: double.infinity,
     child: ElevatedButton(
       child: const Text(
-        "Sign Up",
+        "Login",
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       ),
       onPressed: () {
-        print("test message2");
+        FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+                email: emailController.text, password: passwordController.text)
+            .then((value) => print("object"))
+            .onError((error, stackTrace) {
+          print(error.toString());
+        });
       },
     ),
   );
