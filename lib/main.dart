@@ -12,15 +12,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'To-do List',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.cyan,
+        scaffoldBackgroundColor: Colors.blueGrey,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'To-do list- Home Page'),
     );
   }
 }
 
+//maybe will make it for viewing tasks and ticking them
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -49,16 +51,67 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many tisssss pffftttt hahahahah:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            const Text('Welcome',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 36.0,
+                    fontWeight: FontWeight.bold)),
+            ElevatedButton(
+              child: const Text('Open route'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SecondRoute()),
+                );
+              },
+            )
           ],
         ),
       ),
     );
   }
 }
+
+//widget for adding tasks
+
+class SecondRoute extends StatelessWidget {
+  const SecondRoute({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Second Route'),
+      ),
+      body: Center(
+        child: Column(children: <Widget>[
+          Text("Add task"),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const MyApp()),
+              );
+            },
+            child: const Text('Go back!'),
+          ),
+        ]),
+      ),
+    );
+  }
+}
+
+
+
+
+//class for viewing tasks (most likely for deleting)
+
+
+
+
+//class for login
+
+
+
+//class for authentication
