@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:myapp/SignUp.dart';
 import 'package:myapp/main.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -42,8 +43,49 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: 20),
                   buildPassword(),
                   SizedBox(height: 30),
-                  loginButton(),
-                  signupButton(),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 25),
+                    width: double.infinity,
+                    child: ElevatedButton(
+                        child: const Text(
+                          "Login",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        onPressed: () {
+                          FirebaseAuth.instance
+                              .signInWithEmailAndPassword(
+                                  email: emailController.text,
+                                  password: passwordController.text)
+                              .then((value) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MyHomePage(
+                                          title: '"Todo List-Main page',
+                                        )));
+                          }).onError((error, stackTrace) {
+                            print(error.toString());
+                          });
+                        }),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 5),
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      child: const Text(
+                        "Sign Up",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SignUpScreen()));
+                      },
+                    ),
+                  ),
                 ],
               ),
             )
@@ -125,44 +167,5 @@ Widget buildPassword() {
         ),
       )
     ],
-  );
-}
-
-Widget loginButton() {
-  return Container(
-    padding: EdgeInsets.symmetric(vertical: 25),
-    width: double.infinity,
-    child: ElevatedButton(
-        child: const Text(
-          "Login",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        onPressed: () {
-          FirebaseAuth.instance
-              .signInWithEmailAndPassword(
-                  email: emailController.text,
-                  password: passwordController.text)
-              .then((value) {
-            print("Success");
-          }).onError((error, stackTrace) {
-            print(error.toString());
-          });
-        }),
-  );
-}
-
-Widget signupButton() {
-  return Container(
-    padding: EdgeInsets.symmetric(vertical: 5),
-    width: double.infinity,
-    child: ElevatedButton(
-      child: const Text(
-        "Sign Up",
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-      ),
-      onPressed: () {
-        print("test message2");
-      },
-    ),
   );
 }

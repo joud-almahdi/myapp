@@ -38,8 +38,50 @@ class _SignupScreenState extends State<SignUpScreen> {
                   SizedBox(height: 20),
                   buildPassword(),
                   SizedBox(height: 30),
-                  loginButton(),
-                  signupButton(),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 25),
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      child: const Text(
+                        "Sign up",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: () {
+                        FirebaseAuth.instance
+                            .createUserWithEmailAndPassword(
+                                email: emailController.text,
+                                password: passwordController.text)
+                            .then((value) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MyHomePage(
+                                        title: '"Todo List-Main page',
+                                      )));
+                        }).onError((error, stackTrace) {
+                          print(error.toString());
+                        });
+                      },
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 5),
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      child: const Text(
+                        "Login",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginScreen()));
+                      },
+                    ),
+                  ),
                 ],
               ),
             )
@@ -121,43 +163,5 @@ Widget buildPassword() {
         ),
       )
     ],
-  );
-}
-
-Widget loginButton() {
-  return Container(
-    padding: EdgeInsets.symmetric(vertical: 25),
-    width: double.infinity,
-    child: ElevatedButton(
-      child: const Text(
-        "Sign up",
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-      ),
-      onPressed: () {
-        print("test message");
-      },
-    ),
-  );
-}
-
-Widget signupButton() {
-  return Container(
-    padding: EdgeInsets.symmetric(vertical: 5),
-    width: double.infinity,
-    child: ElevatedButton(
-      child: const Text(
-        "Login",
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-      ),
-      onPressed: () {
-        FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-                email: emailController.text, password: passwordController.text)
-            .then((value) => print("object"))
-            .onError((error, stackTrace) {
-          print(error.toString());
-        });
-      },
-    ),
   );
 }
