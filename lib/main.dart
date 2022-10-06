@@ -129,6 +129,54 @@ class _MyHomePageState extends State<MyHomePage> {
                       subtitle: Text((documentSnapshot != null)
                           ? (documentSnapshot["TaskDescription"])
                           : ""),
+                      trailing: TextButton(
+                          onPressed: () {
+                            {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Update Task"),
+                                    content: Container(
+                                      width: 400,
+                                      height: 100,
+                                      child: Column(
+                                        children: [
+                                          TextField(
+                                            onChanged: (String value) {
+                                              title = value;
+                                            },
+                                          ),
+                                          TextField(
+                                            onChanged: (String value) {
+                                              task_details = value;
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              UpdateTask(
+                                                  (documentSnapshot != null)
+                                                      ? (documentSnapshot[
+                                                          "TaskTitle"])
+                                                      : "");
+                                            });
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text("Update"))
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+                            ;
+                            ;
+                          },
+                          child: Text("Update")),
                     ),
                   ),
                 );
