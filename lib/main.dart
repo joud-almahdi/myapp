@@ -71,6 +71,23 @@ class _MyHomePageState extends State<MyHomePage> {
     doc.set(todoList).whenComplete(() => print("SUCCESS"));
   }
 
+  DeleteTask(item) {
+    DocumentReference documentReference =
+        FirebaseFirestore.instance.collection("TaskDataBase").doc(item);
+
+    documentReference
+        .delete()
+        .whenComplete(() => print("deleted successfully"));
+  }
+
+  UpdateTask(item) {
+    DocumentReference documentReference =
+        FirebaseFirestore.instance.collection("TaskDataBase").doc(item);
+
+    documentReference
+        .update({"TaskTitle": title, "TaskDescription": task_details});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,10 +105,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     snapshot.data?.docs[index];
                 final item = snapshot.data!.docs.length;
                 return Dismissible(
-                  key: Key(item.toString()),
+                  key: UniqueKey(),
                   onDismissed: (direction) {
                     setState(() {
-                      tasks.removeAt(index);
+                      DeleteTask((documentSnapshot != null)
+                          ? (documentSnapshot["TaskTitle"])
+                          : "");
                     });
                     ScaffoldMessenger.of(context)
                         .showSnackBar(SnackBar(content: Text("Deleted")));
@@ -101,16 +120,17 @@ class _MyHomePageState extends State<MyHomePage> {
                     margin: EdgeInsets.all(9),
                   ),
                   child: Card(
-                      color: Colors.lightBlueAccent,
-                      margin: EdgeInsets.all(9),
-                      child: ListTile(
-                        title: Text((documentSnapshot != null)
-                            ? (documentSnapshot["TaskTitle"])
-                            : ""),
-                        subtitle: Text((documentSnapshot != null)
-                            ? (documentSnapshot["TaskDescription"])
-                            : ""),
-                      )),
+                    color: Colors.lightBlueAccent,
+                    margin: EdgeInsets.all(9),
+                    child: ListTile(
+                      title: Text((documentSnapshot != null)
+                          ? (documentSnapshot["TaskTitle"])
+                          : ""),
+                      subtitle: Text((documentSnapshot != null)
+                          ? (documentSnapshot["TaskDescription"])
+                          : ""),
+                    ),
+                  ),
                 );
               },
             );
