@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,6 +7,7 @@ import 'package:myapp/main.dart';
 import '../C/Controller.dart';
 
 var thecontroller = Get.put(Controller());
+late Color taskcolor = Colors.black;
 
 //maybe will make it for viewing tasks and ticking them
 class MyHomePage extends StatelessWidget {
@@ -28,6 +31,8 @@ class MyHomePage extends StatelessWidget {
                 QueryDocumentSnapshot<Object?>? documentSnapshot =
                     snapshot.data?.docs[index];
                 final item = snapshot.data!.docs.length;
+                // var date = DateTime.parse(documentSnapshot!["date"].toString());
+                //print(documentSnapshot!["date"]);
                 return Dismissible(
                   key: UniqueKey(),
                   onDismissed: (direction) {
@@ -46,9 +51,12 @@ class MyHomePage extends StatelessWidget {
                     color: Colors.lightBlueAccent,
                     margin: EdgeInsets.all(9),
                     child: ListTile(
-                      title: Text((documentSnapshot != null)
-                          ? (documentSnapshot["TaskTitle"])
-                          : ""),
+                      title: Text(
+                        (documentSnapshot != null)
+                            ? (documentSnapshot["TaskTitle"])
+                            : "",
+                        style: TextStyle(color: taskcolor),
+                      ),
                       subtitle: Text((documentSnapshot != null)
                           ? (documentSnapshot["TaskDescription"])
                           : ""),
@@ -123,7 +131,7 @@ class MyHomePage extends StatelessWidget {
                   title: Text("Add Task"),
                   content: Container(
                     width: 400,
-                    height: 100,
+                    height: 200,
                     child: Column(
                       children: [
                         TextField(
@@ -136,6 +144,12 @@ class MyHomePage extends StatelessWidget {
                             thecontroller.updatedetail(value);
                           },
                         ),
+                        TextFormField(
+                          initialValue: DateTime.now().toString(),
+                          onChanged: (String value) {
+                            thecontroller.updatedate(value);
+                          },
+                        )
                       ],
                     ),
                   ),
@@ -143,7 +157,7 @@ class MyHomePage extends StatelessWidget {
                     TextButton(
                         onPressed: () {
                           thecontroller.CreateTask();
-
+                          thecontroller.updatedate(DateTime.now().toString());
                           Navigator.of(context).pop();
                         },
                         child: const Text("Add"))
