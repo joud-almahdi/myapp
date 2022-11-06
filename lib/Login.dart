@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:myapp/SignUp.dart';
 import 'package:myapp/main.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'V/View.dart';
 import 'firebase_options.dart';
 import 'main.dart';
 
